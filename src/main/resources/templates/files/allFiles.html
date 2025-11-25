@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>allFiles</title>
+</head>
+<body>
+<div class="container">
+    <div>
+        <table>
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>file list</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>파일명</td>
+                <td>파입타입</td>
+                <td>업로드시각</td>
+            </tr>
+            <tr th:each="file : ${files}">
+                <td th:text="${file.getOriginalName()}"></td>
+                <td th:text="${file.getContentType()}"></td>
+                <td th:text="${file.getCreatedAt()}"></td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div> <!-- /container -->
+</body>
+</html>

@@ -18,5 +18,9 @@
                , #{path}
                , #{createdAt})
     </insert>
+
+    <select id="findAll" resultType="com.yeoreum.demo.file.domain.FileMeta">
+        select * from file_meta;
+    </select>
 </mapper>
 
