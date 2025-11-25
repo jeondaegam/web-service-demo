@@ -11,8 +11,36 @@
             <label for="file">파일 선택:</label>
             <input type="file" id="file" name="file" required>
         </div>
+
+        <!-- 미리보기 영역 -->
+        <div>
+            <img id="preview" style="max-width: 300px; display: none; margin-top: 15px;" />
+        </div>
+
         <button type="submit">업로드</button>
     </form>
 </div>
+
+<script>
+    const input = document.getElementById("file");
+    const preview = document.getElementById("preview");
+
+    input.addEventListener("change", function () {
+        const file = this.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+                preview.style.display = "block";
+            };
+
+            reader.readAsDataURL(file);
+        } else {
+            preview.style.display = "none";
+        }
+    });
+</script>
 </body>
 </html>
