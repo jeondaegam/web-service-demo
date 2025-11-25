@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapper namespace="com.yeoreum.demo.file.mapper.FileMetaMapper">
+    <insert id="save" parameterType="com.yeoreum.demo.file.domain.FileMeta">
+        insert into file_meta (
+        id
+        , saved_name
+        , original_name
+        , content_type
+        , size
+        , path
+        , created_at
+        ) values (
+        #{id}
+        , #{uuid}
+        , #{originalName}
+        , #{contentType}
+        , #{size}
+        , #{path}
+        , #{createdAt}
+        );
+    </insert>
+</mapper>
+

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>file upload preview</title>
+</head>
+<body>
+
+<input type="file" id="input-file">
+<img id="preview-image" style="max-width:300px; max-height:300px;">
+<a href="" id="save-file">등록</a>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script>
+
+    // 파일 미리보기
+
+    // 1. FileReader 생성 → 2. 읽기 완료 시 실행 함수 정의 → 3. 파일 읽기 시작 → 4. 읽은 파일을 이미지 src에 넣어서 미리보기🎨
+    const previewImage = (fileInput, previewSelector) => {
+        const file = fileInput.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (e) => $(previewSelector).attr("src", e.target.result); // e.target.result : 읽어온 파일의 내용
+        reader.readAsDataURL(file);
+
+    }
+
+
+    // const saveFile = () => {
+    //     const file = document.querySelector("#input-file").files[0];
+    //     if (!file) return alert("파일을 선택해주세요!");
+    //
+    //     const fileData = new FormData();
+    //     fileData.append("file", file);
+    //
+    //     const apiUrl = "/api/file"
+    //
+    //     fetch(apiUrl, {method: "POST", body: fileData})
+    //         .then(res => res.json())
+    //         .then(data => console.log("업로드 성공", data))
+    //         .catch(err => console.log("업로드 실패", err));
+    //
+    // }
+
+    const saveFile = async () => {
+        const file = $("#input-file")[0].files[0];
+        if (!file) return alert("파일을 선택해주세요!");
+
+        const apiUrl = "/file/upload"
+        const formData = new FormData();
+        formData.append("file", file);
+
+        try {
+            const res = await fetch(apiUrl, {method: "POST", body: formData});
+            if (!res.ok) throw new Error("업로드 실패");
+
+            const data = await res.json();
+            console.log("업로드 성공:", data);
+            alert("업로드 성공!");
+        } catch (err) {
+            console.error(err);
+            alert("업로드 실패");
+        }
+
+    }
+
+
+    $(document).ready(() => {
+
+        // 이미지 파일 미리보기
+        $("#input-file").on("change", e => previewImage(e.target, "#preview-image"));
+
+        // 파일 저장
+        //$("#save-file").on("click", e => saveFile());
+        document.querySelector("#save-file").addEventListener("click", saveFile);
+
+    })
+
+    //    $(() => {}) ==  $(document).ready(() => {})
+
+
+    // function previewImage(inputElement, previewElement) {
+    //     const file = inputElement.files[0];
+    //     const reader = new FileReader();
+    //     reader.onload = function (e) { // 파일 읽기가 끝났을 때 실행할 함수를 정의
+    //         $(previewElement).attr("src", e.target.result); // 선택한 파일을 url형식(base64)으로 읽어오라는 명령 (브라우저에서 이미지를 바로 표시할 수 있다)
+    //     }
+    //     reader.readAsDataURL(file);
+    // }
+
+
+</script>
+</body>
+
+
+</html>
+
