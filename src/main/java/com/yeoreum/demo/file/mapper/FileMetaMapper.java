@@ -8,7 +8,7 @@ import java.util.List;
 @Mapper
 public interface FileMetaMapper {
 
-    FileMeta save(FileMeta fileMeta);
+    void save(FileMeta fileMeta);
     FileMeta findById(Long id);
     List<FileMeta> findAll();
 }

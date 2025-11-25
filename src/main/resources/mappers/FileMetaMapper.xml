@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yeoreum.demo.file.mapper.FileMetaMapper">
+    <insert id="save" parameterType="com.yeoreum.demo.file.domain.FileMeta"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into file_meta ( saved_name
+                              , original_name
+                              , content_type
+                              , size
+                              , path
+                              , created_at)
+        values ( #{savedName}
+               , #{originalName}
+               , #{contentType}
+               , #{size}
+               , #{path}
+               , #{createdAt})
+    </insert>
+</mapper>
+

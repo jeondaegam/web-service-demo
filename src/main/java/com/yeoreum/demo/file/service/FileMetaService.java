@@ -25,30 +25,21 @@ public class FileMetaService {
 
     public Long save(MultipartFile file) throws IOException {
 
-        // 0. UUID 생성(서버 저장용 파일명)
+        // 1. UUID 생성(서버 저장용 파일명)
         String savedFileName = UUID.randomUUID().toString();
         System.out.println("savedFileName:: " + savedFileName);
 
-        // 1. FileMeta 생성
-        FileMeta fileMeta = new FileMeta();
-        fileMeta.setSavedName(savedFileName);
-        fileMeta.setOriginalName(file.getOriginalFilename());
-        fileMeta.setContentType(file.getContentType());
-        fileMeta.setSize(file.getSize());
-        fileMeta.setCreatedAt(new Date());
 
-
-        // 3. 저장 경로 설정(스토리지 경로)
+        // 2. 저장 경로 설정(스토리지 경로)
         String uploadDir = "/Users/yeoreum/Projects/file-storage";
-        String subDir = fileMeta.getSavedName().substring(0, 2);
-//        Path targetDirPath = Paths.get(uploadDir, fileMeta.getSavedName().substring(0, 2)); // uuid 앞 두자리
+        String subDir = savedFileName.substring(0, 2);
         Path targetDirPath = Paths.get(uploadDir).resolve(subDir);
 
-        // 하위 폴더 분산 (uuid 앞 2자리로 하위폴더 생성)
-//        File targetDir = new File(uploadDir + File.separator + targetDirPath);
+        // 2-1. 하위 폴더 분산 (uuid 앞 2자리로 하위폴더 생성)
         File targetDir = targetDirPath.toFile();
 
-        // 4. 디렉토리 생성
+
+        // 3. 디렉토리 생성
         if (!targetDir.exists()) {
             boolean created = targetDir.mkdirs();
             if (!created) {
@@ -57,18 +48,20 @@ public class FileMetaService {
         }
 
 
-        // 5. 실제 파일 저장
+        // 4. 실제 파일 저장
         File savedFile = new File(targetDir, savedFileName);
         file.transferTo(savedFile);
-//        log.info("파일 저장 성공::" + savedFile.getAbsolutePath());
-        System.out.println("savedFile: " + savedFile.getAbsolutePath());
 
-        String fileName = fileMeta.getOriginalName() + "." + fileMeta.getContentType();
-        System.out.println("fileName: " + fileName);
+        // 5. 저자된 파일 정보 DB 저장
+        FileMeta fileMeta = new FileMeta();
+        fileMeta.setSavedName(savedFileName);
+        fileMeta.setOriginalName(file.getOriginalFilename());
+        fileMeta.setContentType(file.getContentType());
+        fileMeta.setSize(file.getSize());
+        fileMeta.setCreatedAt(new Date());
+        fileMeta.setPath(targetDirPath.toString());
 
-        // 5. DB 저장
         fileMetaMapper.save(fileMeta);
-
         return fileMeta.getId();
 
 
