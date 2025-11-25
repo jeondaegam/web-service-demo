@@ -1,3 +1,6 @@
+
+# Gradle / Build 관련
+
 HELP.md
 .gradle
 build/
@@ -5,7 +8,7 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-### STS ###
+### STS / Eclipse ###
 .apt_generated
 .classpath
 .factorypath
@@ -26,12 +29,33 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-
 ### VS Code ###
 .vscode/
+
+
+### JAVA project 공통 ###
+
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+replay_pid*
