@@ -5,15 +5,15 @@ import com.yeoreum.demo.file.service.FileMetaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
+@RequestMapping("/files")
 public class FileController {
 
     private final FileMetaService fileMetaService;
@@ -23,23 +23,33 @@ public class FileController {
         this.fileMetaService = fileMetaService;
     }
 
-    @GetMapping("/files/new")
+    // 업로드 폼
+    @GetMapping("/new")
     public String uploadFileForm() {
         return "files/uploadFileForm";
     }
 
-
-    @PostMapping("/files/upload")
+    // 파일 업로드
+    @PostMapping
     public String uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
-        fileMetaService.save(file); // input 태그의 name 속성과 매칭됨, id는 controller와 전혀 상관 없음
+        fileMetaService.save(file);
         return "redirect:/";
     }
 
-    @GetMapping("files/all")
+    // 파일 전체 리스트
+    @GetMapping
     public String allFiles(Model model) {
-        List<FileMeta> allFiles = fileMetaService.findFiles();
-        model.addAttribute("files", allFiles);
+//        List<FileMeta> allFiles = fileMetaService.findFiles();
+        model.addAttribute("files", fileMetaService.findFiles());
         return "files/allFiles";
+    }
+
+    @GetMapping("/{id}")
+    public String fileDetail(@PathVariable("id") Long id, Model model) {
+        Optional<FileMeta> fileOptional = fileMetaService.findOne(id);
+        FileMeta file = fileOptional.orElse(null);
+        model.addAttribute("file", file);
+        return "files/viewDetail";
     }
 
 }

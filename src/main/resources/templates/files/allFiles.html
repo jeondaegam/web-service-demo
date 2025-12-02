@@ -16,16 +16,22 @@
             </thead>
             <tbody>
             <tr>
+                <td>ID</td>
                 <td>파일명</td>
                 <td>파입타입</td>
                 <td>업로드시각</td>
             </tr>
             <tr th:each="file : ${files}">
+                <td th:text="${file.getId()}"></td>
                 <td th:text="${file.getOriginalName()}"></td>
+                <td>
+                    <a th:href="@{|/files/fileDetail/${file.id}|}"
+                       th:text="${file.getOriginalName()}">
+                    </a>
+                </td>
                 <td th:text="${file.getContentType()}"></td>
                 <td th:text="${file.getCreatedAt()}"></td>
             </tr>
-
             </tbody>
         </table>
     </div>

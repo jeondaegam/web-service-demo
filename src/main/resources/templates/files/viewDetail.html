@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>file detail</title>
+</head>
+<body>
+<div class="container">
+    <h2>파일 상세 정보</h2>
+    <p>ID: <span th:text="${file.id}"></span></p>
+    <p>원본 파일명: <span th:text="${file.originalName}"></span></p>
+    <p>저장 파일명: <span th:text="${file.savedName}"></span></p>
+    <p>컨텐츠 타입: <span th:text="${file.contentType}"></span></p>
+    <p>파일 크기: <span th:text="${file.size}"></span> bytes</p>
+    <p>업로드 경로: <span th:text="${file.path}"></span></p>
+    <p>업로드 시각: <span th:text="${file.createdAt}"></span></p>
+
+    <div th:if="${file.contentType.startsWith('image/')}">
+        <h3>이미지 미리보기</h3>
+        <img th:src="@{'/files/download/' + ${file.savedName}}" alt="image preview" style="max-width: 500px;">
+    </div>
+</div>
+</body>
+</html>

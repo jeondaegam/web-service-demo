@@ -6,18 +6,17 @@
 </head>
 <body>
 <div class="container">
-    <form action="/files/upload" method="post" enctype="multipart/form-data">
+    <form action="/files" method="post" enctype="multipart/form-data">
         <div class="form-group">
-            <label for="file">파일 선택:</label>
+            <label for="file">파일 선택:</label><br>
             <input type="file" id="file" name="file" required>
+            <!-- input 태그의 name 속성이 controller의 @RequestParam과 매칭됨  id는 controller와 전혀 상관 없음 -->
+            <button type="submit">업로드</button>
         </div>
-
         <!-- 미리보기 영역 -->
         <div>
             <img id="preview" style="max-width: 300px; display: none; margin-top: 15px;" />
         </div>
-
-        <button type="submit">업로드</button>
     </form>
 </div>
 
