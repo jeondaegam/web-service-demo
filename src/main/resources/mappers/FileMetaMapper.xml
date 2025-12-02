@@ -20,7 +20,14 @@
     </insert>
 
     <select id="findAll" resultType="com.yeoreum.demo.file.domain.FileMeta">
-        select * from file_meta;
+        select *
+        from file_meta;
+    </select>
+
+    <select id="findById" parameterType="Long" resultType="com.yeoreum.demo.file.domain.FileMeta">
+        select *
+        from file_meta
+        where id = #{id}
     </select>
 </mapper>
 
