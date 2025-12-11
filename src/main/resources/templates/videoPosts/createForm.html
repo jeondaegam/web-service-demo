@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Video Post Upload</title>
+  <style>
+    .container {
+      width: 400px;
+      margin: 40px auto;
+      font-family: Arial, sans-serif;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 6px;
+    }
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 8px;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
+    button {
+      margin-top: 10px;
+      padding: 8px 16px;
+    }
+    #preview {
+      max-width: 300px;
+      margin-top: 10px;
+      display: none;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h2>영상 게시물 등록</h2>
+  <form action="/video-posts" method="post" enctype="multipart/form-data">
+
+    <!-- 제목 -->
+    <div class="form-group">
+      <label for="title">제목</label>
+      <input type="text" id="title" name="title" required>
+    </div>
+
+    <!-- 내용 -->
+    <div class="form-group">
+      <label for="content">내용</label>
+      <textarea id="content" name="content" rows="5" required></textarea>
+    </div>
+
+    <!-- 미리보기 이미지 -->
+    <div class="form-group">
+      <label for="thumbnail">미리보기 이미지</label>
+      <input type="file" id="thumbnail" name="thumbnail" accept="image/*" required>
+      <img id="preview" />
+    </div>
+
+    <!-- YouTube 링크 -->
+    <div class="form-group">
+      <label for="videoId">YouTube 링크</label>
+      <input type="text" id="videoId" name="videoId" placeholder="예: https://youtu.be/xxxxxx" required>
+    </div>
+
+    <button type="submit">등록하기</button>
+  </form>
+</div>
+
+<script>
+  document.getElementById("thumbnail").addEventListener("change", function(event) {
+    var file = event.target.files[0];
+    var previewImg = document.getElementById("preview");
+
+    if (file) {
+      previewImg.src = URL.createObjectURL(file);
+      previewImg.style.display = "block";
+    } else {
+      previewImg.style.display = "none";
+    }
+  });
+</script>
+
+</body>
+</html>

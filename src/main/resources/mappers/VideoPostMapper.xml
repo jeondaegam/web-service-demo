@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yeoreum.demo.videoPost.mapper.VideoPostMapper">
+
+    <insert id="save"
+            parameterType="com.yeoreum.demo.videoPost.domain.VideoPost"
+            useGeneratedKeys="true"
+            keyProperty="id">
+        insert into video_post ( title
+                               , video_id
+                               , thumbnail_file_id
+                               , content
+                               , created_at
+                               , updated_at)
+        values ( #{title}
+               , #{videoId}
+               , #{thumbnailFileId}
+               , #{content}
+               , #{createdAt}
+               , #{updatedAt})
+    </insert>
+
+    <select id="findAll"
+            resultType="com.yeoreum.demo.videoPost.domain.VideoPost">
+        select *
+        from video_post;
+    </select>
+
+    <select id="findById"
+            parameterType="Long"
+            resultType="com.yeoreum.demo.videoPost.domain.VideoPost">
+        select *
+        from video_post
+        where id = #{id}
+    </select>
+
+    <update id="update"
+            parameterType="com.yeoreum.demo.videoPost.domain.VideoPost">
+        update video_post
+        set title             = #{title}
+          , video_id          = #{videoId}
+          , thumbnail_file_id = #{thumbnailFileId}
+          , content           = #{content}
+          , updated_at        = #{updatedAt}
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="Long">
+        delete
+        from video_post
+        where id = #{id}
+    </delete>
+
+</mapper>
+
