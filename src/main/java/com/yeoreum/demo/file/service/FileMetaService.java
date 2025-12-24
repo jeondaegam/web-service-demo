@@ -2,7 +2,9 @@ package com.yeoreum.demo.file.service;
 
 import com.yeoreum.demo.file.domain.FileMeta;
 import com.yeoreum.demo.file.mapper.FileMetaMapper;
+import org.apache.tika.Tika;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,7 +25,11 @@ public class FileMetaService {
     @Autowired
     FileMetaMapper fileMetaMapper;
 
+    private final Tika tika = new Tika();
+
     public Long save(MultipartFile file) throws IOException {
+
+        validateImageFile(file);
 
         // 1. UUID 생성(서버 저장용 파일명)
         String savedFileName = UUID.randomUUID().toString();
@@ -52,7 +58,7 @@ public class FileMetaService {
         File savedFile = new File(targetDir, savedFileName);
         file.transferTo(savedFile);
 
-        // 5. 저자된 파일 정보 DB 저장
+        // 5. 저장된 파일 정보 DB 저장
         FileMeta fileMeta = new FileMeta();
         fileMeta.setSavedName(savedFileName);
         fileMeta.setOriginalName(file.getOriginalFilename());
@@ -91,6 +97,22 @@ public class FileMetaService {
     public Optional<FileMeta> findOne(Long id) {
         FileMeta fileMeta = fileMetaMapper.findById(id);
         return Optional.ofNullable(fileMeta);
+    }
+
+
+    private void validateImageFile(MultipartFile file) throws IOException {
+
+        if (file.isEmpty()) {
+            throw new IllegalArgumentException("파일이 존재하지 않습니다.");
+        }
+
+        String mimeType = tika.detect(file.getInputStream());
+
+        List<String> allowMimeTypes = List.of("image/jpeg", "image/png", "image/gif", "image/webp");
+
+        if (!allowMimeTypes.contains(mimeType)) {
+            throw new IllegalArgumentException("이미지 파일만 업로드 가능합니다. (감지된 타입: " + mimeType + ")");
+        }
     }
 
 

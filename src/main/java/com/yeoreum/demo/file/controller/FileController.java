@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -44,6 +43,8 @@ public class FileController {
         return "files/allFiles";
     }
 
+
+    // 파일 상세 조회
     @GetMapping("/{id}")
     public String fileDetail(@PathVariable("id") Long id, Model model) {
         Optional<FileMeta> fileOptional = fileMetaService.findOne(id);
