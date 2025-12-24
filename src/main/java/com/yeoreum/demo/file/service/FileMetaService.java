@@ -26,6 +26,8 @@ public class FileMetaService {
     FileMetaMapper fileMetaMapper;
 
     private final Tika tika = new Tika();
+    @Value("${file.upload-dir}")
+    private String uploadDir;
 
     public Long save(MultipartFile file) throws IOException {
 
@@ -37,7 +39,6 @@ public class FileMetaService {
 
 
         // 2. 저장 경로 설정(스토리지 경로)
-        String uploadDir = "/Users/yeoreum/Projects/file-storage";
         String subDir = savedFileName.substring(0, 2);
         Path targetDirPath = Paths.get(uploadDir).resolve(subDir);
 
